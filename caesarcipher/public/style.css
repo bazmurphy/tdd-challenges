@@ -1,0 +1,58 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+html {
+  font-family: sans-serif;
+}
+
+body {
+  min-width: 320px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+section {
+  display: grid;
+  row-gap: 1.5rem;
+  padding: 1rem;
+}
+
+.header-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  column-gap: 1rem;
+  align-items: center;
+}
+
+.header-container img {
+  display: block;
+  width: 100%;
+}
+
+.header-container h2 {
+  font-size: 1.3rem;
+}
+
+.input-container,
+.output-container {
+  display: grid;
+  row-gap: 0.5rem;
+}
+
+#input,
+#output {
+  height: 5rem;
+  width: 100%;
+  resize: none;
+  padding: 0.5rem;
+}
+
+#offset {
+  width: 3rem;
+}
+
+label {
+  font-weight: bold;
+}

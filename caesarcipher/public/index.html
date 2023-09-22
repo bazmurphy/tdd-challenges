@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Caesar Cipher Encryption</title>
+  </head>
+  <body>
+    <section>
+      <div class="header-container">
+        <img src="messenger.jpg" alt="Roman Messenger on Horseback" />
+        <h2>
+          Caesar<br />Cipher <br />
+          Encryption
+        </h2>
+      </div>
+      <div class="input-container">
+        <label for="input">Original Message:</label>
+        <textarea name="input" id="input">Hello, how are you</textarea>
+      </div>
+      <div class="offset-container">
+        <label for="offset">Cipher Offset:</label>
+        <input type="number" id="offset" value="1" />
+      </div>
+      <div class="output-container">
+        <label for="output">Encrypted Message:</label>
+        <textarea name="output" id="output"></textarea>
+      </div>
+    </section>
+    <script>
+      import("../build/caesar-cipher-encrypt.js").then((module) => {
+        const input = document.getElementById("input");
+        const offset = document.getElementById("offset");
+        const output = document.getElementById("output");
+
+        output.textContent = module.encryptString(input.value, offset.value);
+
+        input.addEventListener("input", (event) => {
+          output.textContent = module.encryptString(input.value, offset.value);
+        });
+
+        offset.addEventListener("input", (event) => {
+          output.textContent = module.encryptString(input.value, offset.value);
+        });
+      });
+    </script>
+  </body>
+</html>
