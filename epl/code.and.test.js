@@ -1,15 +1,15 @@
 const fs = require("fs");
-const { parse } = require('csv-parse/sync');
+const { parse } = require("csv-parse/sync");
 
 // Synchronous Loading the CSV into a list of objects
 // Look here
-let content = fs.readFileSync('./matches.csv');
+let content = fs.readFileSync("./matches.csv");
 const records = parse(content, {
   columns: true,
-  skip_empty_lines: true
+  skip_empty_lines: true,
 }); // array of objects
 
-// input: 
+// input:
 // [
 //   {
 //   'home_team_goal_count': '5',
@@ -25,14 +25,14 @@ const records = parse(content, {
 //  }
 // ]
 
-// output: 
+// output:
 // ["Team A", "Team B", "Team C"]
 
 function listAllTeams(records) {
   const result = [];
-  records.forEach(({home_team_name, away_team_name}) => {
-    result.push(home_team_name, away_team_name)
-  })
+  records.forEach(({ home_team_name, away_team_name }) => {
+    result.push(home_team_name, away_team_name);
+  });
   // keep only unique team names and then sort alphabetically
   return [...new Set(result)].sort((a, b) => a.localeCompare(b));
 }
@@ -41,10 +41,10 @@ function sortString(strings) {
   return strings.sort((a, b) => a.localeCompare(b));
 }
 
-// input: 
+// input:
 // [{ 'home_team_name': 'Faz' }, { 'home_team_name': 'Jarrod' }]
 
-// output: 
+// output:
 // ['Faz', 'Jarrod']
 
 function mapTeamHomeNames(names) {
@@ -63,7 +63,7 @@ function listUniqNumbers(nums) {
   return [...new Set(nums)];
 }
 
-// input: 
+// input:
 // {
 //   home_team_name: 'Manchester United',
 //   away_team_name: 'Leicester City',
@@ -71,7 +71,7 @@ function listUniqNumbers(nums) {
 //   away_team_goal_count: '1', // string
 // }
 
-// output: 
+// output:
 // "Manchester United"
 
 function getWinner(record) {
@@ -88,7 +88,7 @@ function getWinner(record) {
   }
 }
 
-// input: 
+// input:
 // {
 //   'home_team_goal_count': '5',
 //   'away_team_goal_count': '8',
@@ -96,7 +96,7 @@ function getWinner(record) {
 //   'away_team_name': 'Team B'
 // }
 
-// output: 
+// output:
 // 3
 
 function getGoalDifferenceWinner(record) {
@@ -112,7 +112,7 @@ function getGoalDifferenceWinner(record) {
   }
 }
 
-// input: 
+// input:
 // {
 //   'home_team_goal_count': '9',
 //   'away_team_goal_count': '8',
@@ -120,7 +120,7 @@ function getGoalDifferenceWinner(record) {
 //   'away_team_name': 'Team B'
 // }
 
-// output: 
+// output:
 // -1
 
 function getGoalDifferenceLoser(record) {
@@ -137,7 +137,7 @@ function getGoalDifferenceLoser(record) {
 }
 
 // input:
-// param1: 
+// param1:
 // [{
 //     'home_team_goal_count': '5',
 //     'away_team_goal_count': '8',
@@ -161,8 +161,8 @@ function countWinsForTeam(record, name) {
   record.forEach((game) => {
     if (getWinner(game) === name) {
       count++;
-    };
-  })
+    }
+  });
   return count;
 }
 
@@ -180,7 +180,7 @@ function countWinsForTeam(record, name) {
 //   'away_team_name': 'Team B'
 // }]
 
-// param2: 
+// param2:
 // ['Team A', 'Team B']
 
 // output:
@@ -192,8 +192,8 @@ function countWinsForTeam(record, name) {
 function countWinsForAllTeams(record, names) {
   const result = {};
   names.forEach((name) => {
-    result[name] = countWinsForTeam(record, name)
-  })
+    result[name] = countWinsForTeam(record, name);
+  });
   return result;
 }
 
@@ -228,12 +228,12 @@ function countWinsForAllTeamsSorted(record) {
 
   // iterate over the object and push a newly structured object into the results array
   for (const key in allTeamWinCounts) {
-    result.push({ name: key, wins: allTeamWinCounts[key] })
+    result.push({ name: key, wins: allTeamWinCounts[key] });
   }
   // [
   //   { 'name': 'Team A', 'wins': 0 },
   //   { 'name': 'Team B', 'wins': 2 }
-  // ] 
+  // ]
 
   // sort the array (in place) by wins (highest to lowest)
   result.sort((a, b) => b.wins - a.wins);
@@ -252,228 +252,259 @@ function getLeagueWinner(records) {
   return `${winningTeam} won the League!`;
 }
 
-
 ////////////////////////////////////////////////////////////////////////////////////
 // Do not change from here
 ////////////////////////////////////////////////////////////////////////////////////
 
 test("get winner", () => {
-  expect(getWinner(records[0])).toStrictEqual('Manchester United')
+  expect(getWinner(records[0])).toStrictEqual("Manchester United");
 });
 
 test("get goal difference (winner)", () => {
-  expect(getGoalDifferenceWinner(records[0])).toStrictEqual(1)
+  expect(getGoalDifferenceWinner(records[0])).toStrictEqual(1);
 });
 
 test("list all unique values", () => {
-  expect(listUniqNumbers(['a', -1, -1, 1, 1, 1, 2, 2, 3, 3, 4])).toStrictEqual(['a', -1, 1, 2, 3, 4])
+  expect(listUniqNumbers(["a", -1, -1, 1, 1, 1, 2, 2, 3, 3, 4])).toStrictEqual([
+    "a",
+    -1,
+    1,
+    2,
+    3,
+    4,
+  ]);
 });
 
 test("list all unique values II", () => {
-  expect(listUniqNumbers(['a', -1, -1, 1, 1, 1, 2, 2, 3, 3])).toStrictEqual(['a', -1, 1, 2, 3])
+  expect(listUniqNumbers(["a", -1, -1, 1, 1, 1, 2, 2, 3, 3])).toStrictEqual([
+    "a",
+    -1,
+    1,
+    2,
+    3,
+  ]);
 });
 
 test("map team names", () => {
-  expect(mapTeamHomeNames([
-    { 'home_team_name': 'Faz' },
-    { 'home_team_name': 'Jarrod' }
-  ])
-  ).toStrictEqual(['Faz', 'Jarrod'])
+  expect(
+    mapTeamHomeNames([{ home_team_name: "Faz" }, { home_team_name: "Jarrod" }])
+  ).toStrictEqual(["Faz", "Jarrod"]);
 });
 
 test("sort String", () => {
-  expect(sortString(["Jarrod", "Faz"])).toStrictEqual(['Faz', 'Jarrod'])
+  expect(sortString(["Jarrod", "Faz"])).toStrictEqual(["Faz", "Jarrod"]);
 });
 
 test("get goal difference (loser)", () => {
-  expect(getGoalDifferenceLoser({
-    'home_team_goal_count': '9',
-    'away_team_goal_count': '8',
-    'home_team_name': 'Team A',
-    'away_team_name': 'Team B'
-  })).toStrictEqual(-1)
+  expect(
+    getGoalDifferenceLoser({
+      home_team_goal_count: "9",
+      away_team_goal_count: "8",
+      home_team_name: "Team A",
+      away_team_name: "Team B",
+    })
+  ).toStrictEqual(-1);
 });
 
 test("list all teams", () => {
-  expect(listAllTeams(
-    [
+  expect(
+    listAllTeams([
       {
-        'home_team_goal_count': '5',
-        'away_team_goal_count': '8',
-        'home_team_name': 'Team A',
-        'away_team_name': 'Team B'
+        home_team_goal_count: "5",
+        away_team_goal_count: "8",
+        home_team_name: "Team A",
+        away_team_name: "Team B",
       },
       {
-        'home_team_goal_count': '5',
-        'away_team_goal_count': '8',
-        'home_team_name': 'Team A',
-        'away_team_name': 'Team B'
-      }]
-
-  )).toStrictEqual(
-    ["Team A", "Team B"]
-  )
-})
+        home_team_goal_count: "5",
+        away_team_goal_count: "8",
+        home_team_name: "Team A",
+        away_team_name: "Team B",
+      },
+    ])
+  ).toStrictEqual(["Team A", "Team B"]);
+});
 
 test("list all teams", () => {
-  expect(listAllTeams(
-    [
+  expect(
+    listAllTeams([
       {
-        'home_team_goal_count': '5',
-        'away_team_goal_count': '8',
-        'home_team_name': 'Team A',
-        'away_team_name': 'Team B'
+        home_team_goal_count: "5",
+        away_team_goal_count: "8",
+        home_team_name: "Team A",
+        away_team_name: "Team B",
       },
       {
-        'home_team_goal_count': '5',
-        'away_team_goal_count': '8',
-        'home_team_name': 'Team A',
-        'away_team_name': 'Team C'
-      }]
-
-  )).toStrictEqual(
-    ["Team A", "Team B", "Team C"]
-  )
-})
-
+        home_team_goal_count: "5",
+        away_team_goal_count: "8",
+        home_team_name: "Team A",
+        away_team_name: "Team C",
+      },
+    ])
+  ).toStrictEqual(["Team A", "Team B", "Team C"]);
+});
 
 test("get winner part II", () => {
-  expect(getWinner({
-    'home_team_goal_count': '5',
-    'away_team_goal_count': '7',
-    'home_team_name': 'Team A',
-    'away_team_name': 'Team B'
-  })).toStrictEqual('Team B')
+  expect(
+    getWinner({
+      home_team_goal_count: "5",
+      away_team_goal_count: "7",
+      home_team_name: "Team A",
+      away_team_name: "Team B",
+    })
+  ).toStrictEqual("Team B");
 });
 
 test("get winner part III (draw)", () => {
-  expect(getWinner({
-    'home_team_goal_count': '5',
-    'away_team_goal_count': '5',
-    'home_team_name': 'Team A',
-    'away_team_name': 'Team B'
-  })).toStrictEqual(null)
+  expect(
+    getWinner({
+      home_team_goal_count: "5",
+      away_team_goal_count: "5",
+      home_team_name: "Team A",
+      away_team_name: "Team B",
+    })
+  ).toStrictEqual(null);
 });
 
 test("count wins for team", () => {
-  let data = [{
-    'home_team_goal_count': '5',
-    'away_team_goal_count': '8',
-    'home_team_name': 'Team A',
-    'away_team_name': 'Team B'
-  },
-  {
-    'home_team_goal_count': '5',
-    'away_team_goal_count': '8',
-    'home_team_name': 'Team A',
-    'away_team_name': 'Team B'
-  }]
-  expect(countWinsForTeam(data, 'Team A')).toStrictEqual(0)
-
-})
+  let data = [
+    {
+      home_team_goal_count: "5",
+      away_team_goal_count: "8",
+      home_team_name: "Team A",
+      away_team_name: "Team B",
+    },
+    {
+      home_team_goal_count: "5",
+      away_team_goal_count: "8",
+      home_team_name: "Team A",
+      away_team_name: "Team B",
+    },
+  ];
+  expect(countWinsForTeam(data, "Team A")).toStrictEqual(0);
+});
 
 test("count wins for teams II", () => {
-  let data = [{
-    'home_team_goal_count': '5',
-    'away_team_goal_count': '8',
-    'home_team_name': 'Team A',
-    'away_team_name': 'Team B'
-  },
-  {
-    'home_team_goal_count': '5',
-    'away_team_goal_count': '8',
-    'home_team_name': 'Team A',
-    'away_team_name': 'Team B'
-  }]
-  expect(countWinsForAllTeams(data, ['Team A', 'Team B'])).toStrictEqual(
+  let data = [
     {
-      'Team A': 0,
-      'Team B': 2
-    }
-  )
-
-})
-
+      home_team_goal_count: "5",
+      away_team_goal_count: "8",
+      home_team_name: "Team A",
+      away_team_name: "Team B",
+    },
+    {
+      home_team_goal_count: "5",
+      away_team_goal_count: "8",
+      home_team_name: "Team A",
+      away_team_name: "Team B",
+    },
+  ];
+  expect(countWinsForAllTeams(data, ["Team A", "Team B"])).toStrictEqual({
+    "Team A": 0,
+    "Team B": 2,
+  });
+});
 
 test("count wins for teams (sorted)", () => {
-  let data = [{
-    'home_team_goal_count': '5',
-    'away_team_goal_count': '8',
-    'home_team_name': 'Team A',
-    'away_team_name': 'Team B'
-  },
-  {
-    'home_team_goal_count': '5',
-    'away_team_goal_count': '8',
-    'home_team_name': 'Team A',
-    'away_team_name': 'Team B'
-  }]
-  let result = countWinsForAllTeamsSorted(data)
+  let data = [
+    {
+      home_team_goal_count: "5",
+      away_team_goal_count: "8",
+      home_team_name: "Team A",
+      away_team_name: "Team B",
+    },
+    {
+      home_team_goal_count: "5",
+      away_team_goal_count: "8",
+      home_team_name: "Team A",
+      away_team_name: "Team B",
+    },
+  ];
+  let result = countWinsForAllTeamsSorted(data);
   // console.log(result)
-  expect(result).toStrictEqual(
-    [
-      { 'name': 'Team B', 'wins': 2 },
-      { 'name': 'Team A', 'wins': 0 }
-    ]
-  )
-})
-
-
-
-test("get goal difference (winner) II", () => {
-  expect(getGoalDifferenceWinner({
-    'home_team_goal_count': '5',
-    'away_team_goal_count': '8',
-    'home_team_name': 'Team A',
-    'away_team_name': 'Team B'
-  })).toStrictEqual(3)
+  expect(result).toStrictEqual([
+    { name: "Team B", wins: 2 },
+    { name: "Team A", wins: 0 },
+  ]);
 });
 
-
 test("get goal difference (winner) II", () => {
-  expect(getGoalDifferenceWinner({
-    'home_team_goal_count': '5',
-    'away_team_goal_count': '100',
-    'home_team_name': 'Team A',
-    'away_team_name': 'Team B'
-  })).toStrictEqual(95)
+  expect(
+    getGoalDifferenceWinner({
+      home_team_goal_count: "5",
+      away_team_goal_count: "8",
+      home_team_name: "Team A",
+      away_team_name: "Team B",
+    })
+  ).toStrictEqual(3);
 });
 
-
-
-test("get goal difference (loser)", () => {
-  expect(getGoalDifferenceLoser({
-    'home_team_goal_count': '5',
-    'away_team_goal_count': '8',
-    'home_team_name': 'Team A',
-    'away_team_name': 'Team B'
-  })).toStrictEqual(-3)
+test("get goal difference (winner) II", () => {
+  expect(
+    getGoalDifferenceWinner({
+      home_team_goal_count: "5",
+      away_team_goal_count: "100",
+      home_team_name: "Team A",
+      away_team_name: "Team B",
+    })
+  ).toStrictEqual(95);
 });
 
 test("get goal difference (loser)", () => {
-  expect(getGoalDifferenceLoser({
-    'home_team_goal_count': '5',
-    'away_team_goal_count': '80',
-    'home_team_name': 'Team A',
-    'away_team_name': 'Team B'
-  })).toStrictEqual(-75)
+  expect(
+    getGoalDifferenceLoser({
+      home_team_goal_count: "5",
+      away_team_goal_count: "8",
+      home_team_name: "Team A",
+      away_team_name: "Team B",
+    })
+  ).toStrictEqual(-3);
 });
 
-
+test("get goal difference (loser)", () => {
+  expect(
+    getGoalDifferenceLoser({
+      home_team_goal_count: "5",
+      away_team_goal_count: "80",
+      home_team_name: "Team A",
+      away_team_name: "Team B",
+    })
+  ).toStrictEqual(-75);
+});
 
 test("sortValues values", () => {
-  expect(sortValues([2, 5, 1])).toStrictEqual([1, 2, 5])
+  expect(sortValues([2, 5, 1])).toStrictEqual([1, 2, 5]);
 });
 
-
 test("list all teams", () => {
-  expect(listAllTeams(records)).toStrictEqual(
-    ["AFC Bournemouth", "Arsenal", "Brighton & Hove Albion", "Burnley", "Cardiff City", "Chelsea", "Crystal Palace", "Everton", "Fulham", "Huddersfield Town", "Leicester City", "Liverpool", "Manchester City", "Manchester United", "Newcastle United", "Southampton", "Tottenham Hotspur", "Watford", "West Ham United", "Wolverhampton Wanderers"]
-  )
-})
+  expect(listAllTeams(records)).toStrictEqual([
+    "AFC Bournemouth",
+    "Arsenal",
+    "Brighton & Hove Albion",
+    "Burnley",
+    "Cardiff City",
+    "Chelsea",
+    "Crystal Palace",
+    "Everton",
+    "Fulham",
+    "Huddersfield Town",
+    "Leicester City",
+    "Liverpool",
+    "Manchester City",
+    "Manchester United",
+    "Newcastle United",
+    "Southampton",
+    "Tottenham Hotspur",
+    "Watford",
+    "West Ham United",
+    "Wolverhampton Wanderers",
+  ]);
+});
 
 // console.log(countWinsForAllTeamsSorted(records))
 
 test("get the league winner", () => {
-  expect(getLeagueWinner(records)).toStrictEqual("Manchester City won the League!")
-})
+  expect(getLeagueWinner(records)).toStrictEqual(
+    "Manchester City won the League!"
+  );
+});
