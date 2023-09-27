@@ -1,0 +1,16 @@
+{
+  "name": "connectfour",
+  "version": "1.0.0",
+  "description": "",
+  "main": "code.and.test.js",
+  "scripts": {
+    "test": "jest",
+    "testwatch": "jest --watchAll"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jest": "^29.7.0"
+  }
+}
